@@ -7,6 +7,8 @@
 <meta name="description" content="Mayor's Surveyor is a free layout planner for SimCity BuildIt. Plan your city in the browser: buildings, roads, rails, service coverage and a City Report, for all six regions. No install, no account.">
 <meta property="og:title" content="Mayor's Surveyor – SCBI City Planner">
 <meta property="og:description" content="A free browser planner for SimCity BuildIt layouts.">
+<link rel="canonical" href="https://2030mayor.github.io/Mayor-s-Surveyor/">
+<meta property="og:url" content="https://2030mayor.github.io/Mayor-s-Surveyor/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
 <style>
@@ -1299,7 +1301,7 @@ label.theme-menu-title{display:block;cursor:default}
   </div>
  </div>
   <div class="brand">
-  <div class="brand-text"><h1>Mayor's Surveyor <span class="version-chip">v18.8.6</span></h1></div>
+  <div class="brand-text"><h1>Mayor's Surveyor <span class="version-chip">v18.8.7</span></h1></div>
  </div>
  <div class="topbar-group">
   <button class="btn small ic history-btn" id="undo" title="Undo (Ctrl + Z)">Undo <span class="kbd">Ctrl + Z</span></button>
@@ -1592,7 +1594,7 @@ let ctx=canvas.getContext('2d');
 let paintMemo=null;
 let displayMetricsEpoch=0;
 let templateIndexSource=null,templateIndex=new Map();
-const APP_VERSION='18.8.6'; // App release; JSON formatVersion is a separate schema version.
+const APP_VERSION='18.8.7'; // App release; JSON formatVersion is a separate schema version.
 // Single source of truth for the visible release version (the save schema is unchanged).
 document.querySelectorAll('.version-chip').forEach(chip => { chip.textContent='v'+APP_VERSION; });
 document.title="Mayor's Surveyor – SCBI City Planner"; // v18.8.5/18.8.6: the tab title says what it is (version: the chip)
