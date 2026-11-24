@@ -17,15 +17,15 @@ before spending hours rebuilding in the game. It runs in your browser, no instal
 - Save as many plans as you like, and export/import them as files.
 - 18 languages.
 
+
 Your plans are saved in your own browser and never uploaded anywhere. If you clear your
 browser data they're gone, so export the ones you care about.
 
-## Honest notes
+
 
 - **It's built and tested mostly on desktop (Chrome).**
 - **Phones:** supposed to work, did not test it thoroughly.
 - I'm one person doing this for fun, so expect the odd bug.
-
 
 ---
 
