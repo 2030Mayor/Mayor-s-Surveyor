@@ -1301,7 +1301,7 @@ label.theme-menu-title{display:block;cursor:default}
   </div>
  </div>
   <div class="brand">
-  <div class="brand-text"><h1>Mayor's Surveyor <span class="version-chip">v18.8.7</span></h1></div>
+  <div class="brand-text"><h1>Mayor's Surveyor <span class="version-chip">v18.8.8</span></h1></div>
  </div>
  <div class="topbar-group">
   <button class="btn small ic history-btn" id="undo" title="Undo (Ctrl + Z)">Undo <span class="kbd">Ctrl + Z</span></button>
@@ -1594,7 +1594,7 @@ let ctx=canvas.getContext('2d');
 let paintMemo=null;
 let displayMetricsEpoch=0;
 let templateIndexSource=null,templateIndex=new Map();
-const APP_VERSION='18.8.7'; // App release; JSON formatVersion is a separate schema version.
+const APP_VERSION='18.8.8'; // App release; JSON formatVersion is a separate schema version.
 // Single source of truth for the visible release version (the save schema is unchanged).
 document.querySelectorAll('.version-chip').forEach(chip => { chip.textContent='v'+APP_VERSION; });
 document.title="Mayor's Surveyor – SCBI City Planner"; // v18.8.5/18.8.6: the tab title says what it is (version: the chip)
@@ -1694,7 +1694,7 @@ let history=[],future=[],toastTimer=null,activePlanName=null,planAutosaveLock=fa
 let nudgeHistoryActive=false,nudgeHistoryTimer=null;
 const NUDGE_HISTORY_DELAY=900;
 const pointer={down:false,mode:null,startX:0,startY:0,startPanX:0,startPanY:0,startCell:null,lastCell:null,linePreview:null,dragBuilding:null,dragOffset:null,selectCandidate:null,freeStroke:[],straightLatched:false,strokeTool:null,boxStart:null,boxEnd:null,selectZone:null,selectFromOutside:false};
-const DEFAULT_LAYER_SETTINGS={showBuildings:true,showBuildingIcons:true,showRoads:true,showRail:true,showBoosts:true,showWarnings:true,showPollution:true,showConnectivity:true,showRailConnectors:true,showUncovered:false,showLabels:false,showGrid:true,hiddenCategories:[],hiddenCoverageKeys:[],legendTab:'coverage',legendMinimized:false,hiddenTemplateIds:[],majorGridStep:10,goldCoverageKeys:['Fire','Police','Health','Amenity:Parks','Amenity:Education','Amenity:Transportation','Amenity:Entertainment','Amenity:Landmarks'],customOverlapCollapsed:false,showMandatoryOverlap:true,coverageColors:{}};
+const DEFAULT_LAYER_SETTINGS={showBuildings:true,showBuildingIcons:true,showRoads:true,showRail:true,showBoosts:false,showWarnings:true,showPollution:true,showConnectivity:true,showRailConnectors:true,showUncovered:false,showLabels:false,showGrid:true,hiddenCategories:[],hiddenCoverageKeys:[],legendTab:'coverage',legendMinimized:false,hiddenTemplateIds:[],majorGridStep:10,goldCoverageKeys:['Fire','Police','Health','Amenity:Parks','Amenity:Education','Amenity:Transportation','Amenity:Entertainment','Amenity:Landmarks'],customOverlapCollapsed:false,showMandatoryOverlap:true,coverageColors:{}};
 let layerSettings=structuredClone(DEFAULT_LAYER_SETTINGS);
 const hiddenCategories=new Set();
 const hiddenCoverageKeys=new Set();
@@ -2474,7 +2474,7 @@ function blankStateForCurrentProfile(){
  saveLayerSets();
  // A New Plan starts with an empty layout on the currently selected region/profile,
  // keeping the personal building library and display preferences.
- return{format:PLAN_FORMAT,formatVersion:PLAN_FORMAT_VERSION,version:APP_VERSION,grid:structuredClone(grid),roads:[],rails:[],roadLinks:[],railLinks:[],buildings:[],templates:[],view:{cellSize:14,panX:30,panY:60},layers:structuredClone(layerSettings)};
+ return{format:PLAN_FORMAT,formatVersion:PLAN_FORMAT_VERSION,version:APP_VERSION,grid:structuredClone(grid),roads:[],rails:[],roadLinks:[],railLinks:[],buildings:[],templates:[],view:{cellSize:14,panX:30,panY:60},layers:{...structuredClone(layerSettings),showBoosts:false}}; // v18.8.8: boost outlines start off in a new plan
 }
 // Install an already-validated plan as the live workspace. Transactional: every
 // check runs on local copies first; live state is replaced only when all pass.
@@ -5961,7 +5961,7 @@ viewport.addEventListener('wheel',e=>{e.preventDefault();if(!cameraPreviewPendin
 
 
 function syncRegionProfileUI(){}
-function stateForProfileId(id){const p=regionProfile(id);return{version:APP_VERSION,grid:{region:id,w:p.w,h:p.h,entranceFromShore:p.entranceFromShore??13,railFromShore:p.railFromShore??14,edgeDepth:id==='capital'?3:0},roads:[],rails:[],buildings:[],templates:templates.filter(t=>!t.builtin).map(t=>structuredClone(t)),view:{cellSize:14,panX:30,panY:60},layers:structuredClone(layerSettings)}}
+function stateForProfileId(id){const p=regionProfile(id);return{version:APP_VERSION,grid:{region:id,w:p.w,h:p.h,entranceFromShore:p.entranceFromShore??13,railFromShore:p.railFromShore??14,edgeDepth:id==='capital'?3:0},roads:[],rails:[],buildings:[],templates:templates.filter(t=>!t.builtin).map(t=>structuredClone(t)),view:{cellSize:14,panX:30,panY:60},layers:{...structuredClone(layerSettings),showBoosts:false}}} // v18.8.8: boost outlines start off in a new plan
 function useRegionProfile(id){if(!regionProfile(id))return toast(tr('Region preset not found'));if(!confirmDiscard(tr('Switch region preset')))return false;try{replaceWorkspace(stateForProfileId(id),{fit:true})}catch(err){toast(tr('Region switch failed: {error}',{error:err.message}));return false}if($('#planName'))$('#planName').value='';if($('#planNotes'))$('#planNotes').value='';renderPlans();renderProfiles();$('#plansModal').classList.remove('show');toast(tr('Using {name}',{name:regionLabelText(id,regionProfile(id).label)}));return true}
 
 // ---- Phone layout and touch (v18.7) ----------------------------------------------
